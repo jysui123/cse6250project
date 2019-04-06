@@ -4,5 +4,6 @@
 *.train
 *.test
 *.valid
+*.pdf
 .vscode
 README.md
