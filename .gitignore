@@ -10,3 +10,5 @@
 .vscode
 README.md
 test_gpu.py
+
+!labelMap.csv

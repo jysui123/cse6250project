@@ -118,6 +118,9 @@ def load_data(dataFile, labelFile, timeFile):
 	sorted_index = len_argsort(test_set_x)
 	test_set_x = [test_set_x[i] for i in sorted_index]
 	test_set_y = [test_set_y[i] for i in sorted_index]
+
+	#print test_set_y[0][0]
+
 	if len(timeFile) > 0:
 		test_set_t = [test_set_t[i] for i in sorted_index]
 	
@@ -226,10 +229,13 @@ def test_doctorAI(
 			x, mask, lengths = padMatrixWithoutTime(tempX, options)
 			codeResults = predict_code(x, mask)
 
+		#print tempY
 		for i in range(codeResults.shape[1]):
 			tensorMatrix = codeResults[:,i,:]
 			thisY = tempY[i][1:]
+			#print thisY
 			for timeIndex in range(lengths[i]):
+				#print timeIndex
 				if len(thisY[timeIndex]) == 0: continue
 				trueVec.append(thisY[timeIndex])
 				output = tensorMatrix[timeIndex]

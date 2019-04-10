@@ -118,6 +118,7 @@ if __name__ == '__main__':
 	def genNewSeqs(seqs, types, mapping):
 		newSeqs = []
 		newLabels = []
+		# print seqs[0][0]
 		
 		for patient in seqs:
 			newPatient = []
@@ -136,7 +137,9 @@ if __name__ == '__main__':
 				newPatient.append(newVisit)
 				newPatientLabel.append(newVisitLabel)
 			newSeqs.append(newPatient)
-			newLabels.append(newVisitLabel)
+			newLabels.append(newPatientLabel)
+
+		# print newLabels[0][0]
 		
 		return newSeqs, newLabels 
 
@@ -152,7 +155,7 @@ if __name__ == '__main__':
 		pickle.dump(newSeqs, open(outFile+'.visits.'+fileExt, 'wb'), -1)
 		pickle.dump(newLabels, open(outFile+'.labels.'+fileExt, 'wb'), -1)
 
-
+	# print newLabelsTest[0][0]
 	pickleDump(pidsTrain, datesTrain, newSeqsTrain, newLabelsTrain, outFile, 'train')
 	pickleDump(pidsTest, datesTest, newSeqsTest, newLabelsTest, outFile, 'test')
 	pickleDump(pidsValid, datesValid, newSeqsValid, newLabelsValid, outFile, 'valid')
