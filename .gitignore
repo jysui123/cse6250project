@@ -9,7 +9,7 @@
 *.types
 .vscode
 .DS_Store
-README.md
 test_gpu.py
+doctorai.md
 
 !labelMap.csv
