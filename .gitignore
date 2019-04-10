@@ -6,5 +6,7 @@
 *.valid
 *.pdf
 *.npz
+*.types
 .vscode
 README.md
+test_gpu.py
