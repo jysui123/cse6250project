@@ -8,6 +8,7 @@ import numpy as np
 import cPickle as pickle
 from collections import OrderedDict
 import argparse
+import matplotlib as plt
 
 import theano
 import theano.tensor as T

@@ -168,8 +168,11 @@ if __name__ == '__main__':
 	print 'mapped types w/ 0:', len(mappedTypesWith0)
 
 	mappedTypeSet = set()
+	maxCodeNum = 0
 	for k, v in CCSMapping.iteritems():
 		mappedTypeSet.add(v)
+		if v > maxCodeNum:
+			maxCodeNum = v
 	print 'mapped types in CCSMapping:', len(mappedTypeSet)
 	print mappedTypeSet
 
@@ -185,3 +188,9 @@ if __name__ == '__main__':
 	pickleDump(pidsValid, datesValid, newSeqsValid, newLabelsValid, outFile, 'valid')
 	
 	pickle.dump(types, open(outFile+'.types', 'wb'), -1)
+
+	print '***************************'
+	print '* arguments to doctorAI.py:'
+	print '* number of codes in visit file:', len(types)
+	print '* number of codes in label file:', maxCodeNum + 1
+	print '***************************'
