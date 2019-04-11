@@ -14,7 +14,7 @@ Chenyu Shi||
 + Modify `process_mimic.py` to split input dataset to 3 folds (train, test, valid)
 
 ## TODO
-- Understand evaluation methods (testDoctorAI.py and original paper)
-- Tune parameters of doctorAI.py to achieve better performance
+- Understand evaluation methods (`testDoctorAI.py` and original paper)
+- Tune parameters of `doctorAI.py` to achieve better performance
 - Write a plot script
 - Draft DUE on 04/14

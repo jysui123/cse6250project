@@ -32,7 +32,7 @@ def convert_to_3digit_icd9(dxStr):
 		else: return dxStr
 
 def convert_to_label(dxStr):
-    return 'D_' + convert_to_icd9(dxStr[1:-1])
+    return 'D_' + convert_to_icd9(dxStr)
 
 if __name__ == '__main__':
 	admissionFile = sys.argv[1]
@@ -44,6 +44,8 @@ if __name__ == '__main__':
 	df_map = pd.read_csv("labelMap.csv", usecols=["code", "cat"])
 	df_map["code"] = df_map["code"].apply(convert_to_label)
 	CCSMapping = dict(zip(df_map.code, df_map.cat))
+
+	print 'CCSMapping items:', len(CCSMapping)
 
 	print 'Building pid-admission mapping, admission-date mapping'
 	pidAdmMap = {}
@@ -114,11 +116,17 @@ if __name__ == '__main__':
 	
 	print 'Converting strSeqs to intSeqs, and making types'
 	types = {}
+	mappedTypes = set()
+	mappedTypesWith0 = set()
+	startingIndex = 297
 
-	def genNewSeqs(seqs, types, mapping):
+	notMatch = 0
+
+	def genNewSeqs(seqs, types, mapping, mappedTypes, mappedTypesWith0):
 		newSeqs = []
 		newLabels = []
-		# print seqs[0][0]
+
+		notMatch = 0
 		
 		for patient in seqs:
 			newPatient = []
@@ -132,22 +140,38 @@ if __name__ == '__main__':
 					newVisit.append(types[code])
 					if code not in mapping:
 						newVisitLabel.append(0)
+						mappedTypes.add(code)
+						mappedTypesWith0.add(0)
+						notMatch = notMatch + 1
 					else:
 						newVisitLabel.append(mapping[code])
+						mappedTypes.add(mapping[code])
+						mappedTypesWith0.add(mapping[code])
 				newPatient.append(newVisit)
 				newPatientLabel.append(newVisitLabel)
 			newSeqs.append(newPatient)
 			newLabels.append(newPatientLabel)
 
 		# print newLabels[0][0]
-		
-		return newSeqs, newLabels 
+		return newSeqs, newLabels, notMatch
 
-	newSeqsTrain, newLabelsTrain = genNewSeqs(seqsTrain, types, CCSMapping)
-	newSeqsTest, newLabelsTest = genNewSeqs(seqsTest, types, CCSMapping)
-	newSeqsValid, newLabelsValid = genNewSeqs(seqsValid, types, CCSMapping)
+	newSeqsTrain, newLabelsTrain, nm = genNewSeqs(seqsTrain, types, CCSMapping, mappedTypes, mappedTypesWith0)
+	notMatch = notMatch + nm
+	newSeqsTest, newLabelsTest, nm = genNewSeqs(seqsTest, types, CCSMapping, mappedTypes, mappedTypesWith0)
+	notMatch = notMatch + nm
+	newSeqsValid, newLabelsValid, nm = genNewSeqs(seqsValid, types, CCSMapping, mappedTypes, mappedTypesWith0)
+	notMatch = notMatch + nm
 
+	print 'not matched diagnosis: ', notMatch
+	print 'mapped types:', len(mappedTypes)
 	print 'types size: ', len(types)
+	print 'mapped types w/ 0:', len(mappedTypesWith0)
+
+	mappedTypeSet = set()
+	for k, v in CCSMapping.iteritems():
+		mappedTypeSet.add(v)
+	print 'mapped types in CCSMapping:', len(mappedTypeSet)
+	print mappedTypeSet
 
 	def pickleDump(pids, dates, newSeqs, newLabels, outFile, fileExt):
 		pickle.dump(pids, open(outFile+'.pids.'+fileExt, 'wb'), -1)
