@@ -8,6 +8,8 @@
 *.npz
 *.types
 *.opj
+*.txt
+*.TXT
 .vscode
 .DS_Store
 test_gpu.py
