@@ -461,8 +461,8 @@ def train_doctorAI(
 			bestParams = unzip(tparams)
 			testCrossEntropy = calculate_auc(test_model, testSet, options)
 			print 'Test cross entropy:%f at epoch:%d' % (testCrossEntropy, epoch)
-			tempParams = unzip(tparams)
-			np.savez_compressed(outFile + '.' + str(epoch), **tempParams)
+		tempParams = unzip(tparams)
+		np.savez_compressed(outFile + '.' + str(epoch), **tempParams)
 	print 'The best valid cross entropy:%f at epoch:%d' % (bestValidCrossEntropy, bestValidEpoch)
 	print 'The test cross entropy: %f' % testCrossEntropy
 	

@@ -255,6 +255,7 @@ def test_doctorAI(
 			
 	recall = recallTop(trueVec, predVec)
 	print 'recall@10:%f, recall@20:%f, recall@30:%f' % (recall[0], recall[1], recall[2])
+	return recall
 
 	if predictTime: 
 		r_squared = calculate_r_squared(trueTimeVec, predTimeVec, options)
@@ -283,7 +284,7 @@ if __name__ == '__main__':
 		print 'Cannot predict time duration without time file'
 		sys.exit()
 
-	test_doctorAI(
+	recall = test_doctorAI(
 		modelFile=args.model_file,
 		seqFile=args.seq_file, 
 		labelFile=args.label_file, 
@@ -295,3 +296,27 @@ if __name__ == '__main__':
 		mean_duration=args.mean_duration,
 		verbose=args.verbose
 	)
+	# recalls = []
+	# for epoch in range(20):
+	# 	recall = test_doctorAI(
+	# 		modelFile=args.model_file+'.'+str(epoch)+'.npz',
+	# 		seqFile=args.seq_file, 
+	# 		labelFile=args.label_file, 
+	# 		timeFile=args.time_file, 
+	# 		predictTime=args.predict_time,
+	# 		useLogTime=args.use_log_time,
+	# 		hiddenDimSize=hiddenDimSize,
+	# 		batchSize=args.batch_size,
+	# 		mean_duration=args.mean_duration,
+	# 		verbose=args.verbose
+	# 	)
+	# 	recalls.append(recall)
+	
+	# fout = open("recalls.txt", 'w')
+	# for i in range(3):
+	# 	for r in recalls:
+	# 		fout.write(str(r[i])+'\n')
+	# 	fout.write('\n\n')
+
+	
+

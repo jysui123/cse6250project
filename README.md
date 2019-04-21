@@ -15,6 +15,6 @@ Chenyu Shi||
 
 ## TODO
 - Understand evaluation methods (`testDoctorAI.py` and original paper)
-- Tune parameters of `doctorAI.py` to achieve better performance
-- Write a plot script
-- Draft DUE on 04/14
+- Generate time file to predict patient visit date
+- Change the label to be mortality and try to predict mortality
+- Project (video, code, report) DUE on 04/28

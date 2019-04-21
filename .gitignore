@@ -7,6 +7,7 @@
 *.pdf
 *.npz
 *.types
+*.opj
 .vscode
 .DS_Store
 test_gpu.py
