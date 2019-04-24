@@ -36,17 +36,17 @@ def convert_to_label(dxStr):
 
 def dt_to_integer(dt_time, precision='day'):
 	div = 1
-	if precision = 'second':
+	if precision == 'second':
 		div = 1
-	elif precision = 'minute':
+	elif precision == 'minute':
 		div = 100
-	elif precision = 'hour':
+	elif precision == 'hour':
 		div = 10000
-	elif precision = 'day':
+	elif precision == 'day':
 		div = 1000000
-	elif precision = 'month':
+	elif precision == 'month':
 		div = 100000000
-	elif precision = 'year':
+	elif precision == 'year':
 		div = 10000000000
 	else:
 		print 'ERROR: wrong precision level'
