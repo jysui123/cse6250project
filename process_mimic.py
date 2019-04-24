@@ -34,6 +34,26 @@ def convert_to_3digit_icd9(dxStr):
 def convert_to_label(dxStr):
     return 'D_' + convert_to_icd9(dxStr)
 
+def dt_to_integer(dt_time, precision='day'):
+	div = 1
+	if precision = 'second':
+		div = 1
+	elif precision = 'minute':
+		div = 100
+	elif precision = 'hour':
+		div = 10000
+	elif precision = 'day':
+		div = 1000000
+	elif precision = 'month':
+		div = 100000000
+	elif precision = 'year':
+		div = 10000000000
+	else:
+		print 'ERROR: wrong precision level'
+		exit(0)
+	intTime = dt_time.year*10000000000+dt_time.month*100000000+dt_time.day*1000000+dt_time.hour*10000+dt_time.minute*100+dt_time.second
+	return intTime//div
+
 if __name__ == '__main__':
 	admissionFile = sys.argv[1]
 	diagnosisFile = sys.argv[2]
@@ -92,27 +112,52 @@ if __name__ == '__main__':
 	pidsTest = []
 	datesTest = []
 	seqsTest = []
+	timeTrain = []
+	timeTest = []
+	timeValid = []
+	datesIntTrain = []
+	datesIntTest = []
+	datesIntValid = []
 	i = 0
 
-	def appendToList(pid, visits, pids, dates, seqs):
+	def appendToList(pid, visits, pids, dates, datesInt, seqs, times):
 		pids.append(pid)
 		seq = []
 		date = []
-		for visit in visits:
+		time = [0]
+		dateInt = []
+		for i, visit in enumerate(visits):
 			date.append(visit[0])
+			dateInt.append(dt_to_integer(visit[0]))
 			seq.append(visit[1])
+			if i > 0:
+				time.append(dt_to_integer(visits[i][0])-dt_to_integer(visits[i-1][0]))
 		dates.append(date)
 		seqs.append(seq)
+		datesInt.append(dateInt)
+		times.append(time)
 
 	# split the data into train, test, valid sets, with ratio of 8:1:1
 	for pid, visits in pidSeqMap.iteritems():
 		if i < 8:
-			appendToList(pid, visits, pidsTrain, datesTrain, seqsTrain)
+			appendToList(pid, visits, pidsTrain, datesTrain, datesIntTrain, seqsTrain, timeTrain)
 		elif i < 9:
-			appendToList(pid, visits, pidsTest, datesTest, seqsTest)
+			appendToList(pid, visits, pidsTest, datesTest, datesIntTest, seqsTest, timeTest)
 		else:
-			appendToList(pid, visits, pidsValid, datesValid, seqsValid)	
+			appendToList(pid, visits, pidsValid, datesValid, datesIntValid, seqsValid, timeValid)	
 		i = (i+1)%10
+
+	# print 'print time'
+	# print datesTrain[0]
+	# for i, t in enumerate(datesIntTrain):
+	# 	if i > 5:
+	# 		break
+	# 	print t
+	# for i, t in enumerate(timeTrain):
+	# 	if i > 5:
+	# 		break
+	# 	print t
+	# print 'print time end'
 	
 	print 'Converting strSeqs to intSeqs, and making types'
 	types = {}
@@ -176,16 +221,17 @@ if __name__ == '__main__':
 	print 'mapped types in CCSMapping:', len(mappedTypeSet)
 	print mappedTypeSet
 
-	def pickleDump(pids, dates, newSeqs, newLabels, outFile, fileExt):
+	def pickleDump(pids, dates, newSeqs, newLabels, times, outFile, fileExt):
 		pickle.dump(pids, open(outFile+'.pids.'+fileExt, 'wb'), -1)
 		pickle.dump(dates, open(outFile+'.dates.'+fileExt, 'wb'), -1)
 		pickle.dump(newSeqs, open(outFile+'.visits.'+fileExt, 'wb'), -1)
 		pickle.dump(newLabels, open(outFile+'.labels.'+fileExt, 'wb'), -1)
+		pickle.dump(times, open(outFile+'.time.'+fileExt, 'wb'), -1)
 
 	# print newLabelsTest[0][0]
-	pickleDump(pidsTrain, datesTrain, newSeqsTrain, newLabelsTrain, outFile, 'train')
-	pickleDump(pidsTest, datesTest, newSeqsTest, newLabelsTest, outFile, 'test')
-	pickleDump(pidsValid, datesValid, newSeqsValid, newLabelsValid, outFile, 'valid')
+	pickleDump(pidsTrain, datesTrain, newSeqsTrain, newLabelsTrain, timeTrain, outFile, 'train')
+	pickleDump(pidsTest, datesTest, newSeqsTest, newLabelsTest, timeTest, outFile, 'test')
+	pickleDump(pidsValid, datesValid, newSeqsValid, newLabelsValid, timeValid, outFile, 'valid')
 	
 	pickle.dump(types, open(outFile+'.types', 'wb'), -1)
 
