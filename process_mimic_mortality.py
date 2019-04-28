@@ -204,10 +204,10 @@ if __name__ == '__main__':
 	newSeqsValid, newLabelsValid, nm = genNewSeqs(seqsValid, types, CCSMapping, mappedTypes, mappedTypesWith0)
 	notMatch = notMatch + nm
 
-	print 'not matched diagnosis: ', notMatch
-	print 'mapped types:', len(mappedTypes)
-	print 'types size: ', len(types)
-	print 'mapped types w/ 0:', len(mappedTypesWith0)
+	# print 'not matched diagnosis: ', notMatch
+	# print 'mapped types:', len(mappedTypes)
+	# print 'types size: ', len(types)
+	# print 'mapped types w/ 0:', len(mappedTypesWith0)
 
 	mappedTypeSet = set()
 	maxCodeNum = 0
@@ -215,15 +215,15 @@ if __name__ == '__main__':
 		mappedTypeSet.add(v)
 		if v > maxCodeNum:
 			maxCodeNum = v
-	print 'mapped types in CCSMapping:', len(mappedTypeSet)
-	print mappedTypeSet
+	# print 'mapped types in CCSMapping:', len(mappedTypeSet)
+	# print mappedTypeSet
 
-	n_mort = 0
-	print "n patients", len(pidMortMap)
-	for pid, mort in pidMortMap.iteritems():
-		if mort == 1:
-			n_mort = n_mort + 1
-	print "n dead", n_mort
+	# n_mort = 0
+	# print "n patients", len(pidMortMap)
+	# for pid, mort in pidMortMap.iteritems():
+	# 	if mort == 1:
+	# 		n_mort = n_mort + 1
+	# print "n dead", n_mort
 
 	def mortLabels(pidMortMap, newLabels, pids):
 		mortLabels = []

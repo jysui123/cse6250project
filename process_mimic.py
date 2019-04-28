@@ -207,10 +207,10 @@ if __name__ == '__main__':
 	newSeqsValid, newLabelsValid, nm = genNewSeqs(seqsValid, types, CCSMapping, mappedTypes, mappedTypesWith0)
 	notMatch = notMatch + nm
 
-	print 'not matched diagnosis: ', notMatch
-	print 'mapped types:', len(mappedTypes)
-	print 'types size: ', len(types)
-	print 'mapped types w/ 0:', len(mappedTypesWith0)
+	# print 'not matched diagnosis: ', notMatch
+	# print 'mapped types:', len(mappedTypes)
+	# print 'types size: ', len(types)
+	# print 'mapped types w/ 0:', len(mappedTypesWith0)
 
 	mappedTypeSet = set()
 	maxCodeNum = 0
@@ -218,8 +218,8 @@ if __name__ == '__main__':
 		mappedTypeSet.add(v)
 		if v > maxCodeNum:
 			maxCodeNum = v
-	print 'mapped types in CCSMapping:', len(mappedTypeSet)
-	print mappedTypeSet
+	# print 'mapped types in CCSMapping:', len(mappedTypeSet)
+	# print mappedTypeSet
 
 	def pickleDump(pids, dates, newSeqs, newLabels, times, outFile, fileExt):
 		pickle.dump(pids, open(outFile+'.pids.'+fileExt, 'wb'), -1)

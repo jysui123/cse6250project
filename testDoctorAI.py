@@ -286,44 +286,44 @@ if __name__ == '__main__':
 		print 'Cannot predict time duration without time file'
 		sys.exit()
 
-	# recall = test_doctorAI(
-	# 	modelFile=args.model_file,
-	# 	seqFile=args.seq_file, 
-	# 	labelFile=args.label_file, 
-	# 	timeFile=args.time_file, 
-	# 	predictTime=args.predict_time,
-	# 	useLogTime=args.use_log_time,
-	# 	hiddenDimSize=hiddenDimSize,
-	# 	batchSize=args.batch_size,
-	# 	mean_duration=args.mean_duration,
-	# 	verbose=args.verbose
-	# )
-	recalls = []
-	r2s = []
-	for epoch in range(20):
-		recall, r2 = test_doctorAI(
-			modelFile=args.model_file+'.'+str(epoch)+'.npz',
-			seqFile=args.seq_file, 
-			labelFile=args.label_file, 
-			timeFile=args.time_file, 
-			predictTime=args.predict_time,
-			useLogTime=args.use_log_time,
-			hiddenDimSize=hiddenDimSize,
-			batchSize=args.batch_size,
-			mean_duration=args.mean_duration,
-			verbose=args.verbose
-		)
-		recalls.append(recall)
-		r2s.append(r2)
+	recall = test_doctorAI(
+		modelFile=args.model_file,
+		seqFile=args.seq_file, 
+		labelFile=args.label_file, 
+		timeFile=args.time_file, 
+		predictTime=args.predict_time,
+		useLogTime=args.use_log_time,
+		hiddenDimSize=hiddenDimSize,
+		batchSize=args.batch_size,
+		mean_duration=args.mean_duration,
+		verbose=args.verbose
+	)
+	# recalls = []
+	# r2s = []
+	# for epoch in range(20):
+	# 	recall, r2 = test_doctorAI(
+	# 		modelFile=args.model_file+'.'+str(epoch)+'.npz',
+	# 		seqFile=args.seq_file, 
+	# 		labelFile=args.label_file, 
+	# 		timeFile=args.time_file, 
+	# 		predictTime=args.predict_time,
+	# 		useLogTime=args.use_log_time,
+	# 		hiddenDimSize=hiddenDimSize,
+	# 		batchSize=args.batch_size,
+	# 		mean_duration=args.mean_duration,
+	# 		verbose=args.verbose
+	# 	)
+	# 	recalls.append(recall)
+	# 	r2s.append(r2)
 	
-	fout = open("recalls.txt", 'w')
-	for i in range(4):
-		for r in recalls:
-			fout.write(str(r[i])+'\n')
-		fout.write('\n\n')
+	# fout = open("recalls.txt", 'w')
+	# for i in range(4):
+	# 	for r in recalls:
+	# 		fout.write(str(r[i])+'\n')
+	# 	fout.write('\n\n')
 
-	for r2 in r2s:
-		fout.write(str(r2)+'\n')
+	# for r2 in r2s:
+	# 	fout.write(str(r2)+'\n')
 
 	
 

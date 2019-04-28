@@ -49,4 +49,10 @@ For more detailed information about the format of the training files, please ref
 ```
 python testDoctorAI.py <your model file name w/ .npz suffix> <your visit file w/ suffix> <your label file w/ suffix> <model RNN hidden dimension>  {other optional arguments}
 ```
-The argument `<model RNN hidden dimension>` is one of the optional arguments to doctorAI.py for training. Use `python doctorAI.py --help` to show the default value.
+The argument `<model RNN hidden dimension>` is one of the optional arguments to doctorAI.py for training. Use `python doctorAI.py --help` to show the default value (should be numbers enclosed by square brackets).
+
+## For TA Testing
++ We uploaded our model file model.13.npz and the corresponding label/visit/time files. To use them, run
+```
+python testDoctorAI.py model.15.npz test.visits.test test.labels.test [2000] --predict_time 1 --time_file test.time.test
+``` 

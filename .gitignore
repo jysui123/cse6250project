@@ -15,3 +15,9 @@ test_gpu.py
 doctorai.md
 
 !labelMap.csv
+!model.15.npz
+!ADMISSION.csv
+!DIAGNOSIS_ICD.csv
+!test.time.test
+!test.labels.test
+!test.visits.test
