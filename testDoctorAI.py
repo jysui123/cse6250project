@@ -19,7 +19,7 @@ import operator
 import time
 import warnings
 
-def recallTop(y_true, y_pred, rank=[10, 20, 30]):
+def recallTop(y_true, y_pred, rank=[1, 10, 20, 30]):
 	recall = list()
 	for i in range(len(y_pred)):
 		thisOne = list()
@@ -254,12 +254,14 @@ def test_doctorAI(
 		if iteration == 10: break
 			
 	recall = recallTop(trueVec, predVec)
-	print 'recall@10:%f, recall@20:%f, recall@30:%f' % (recall[0], recall[1], recall[2])
-	return recall
+	print 'recall@1:%f, recall@10:%f, recall@20:%f, recall@30:%f' % (recall[0], recall[1], recall[2], recall[3])
 
+	r2 = 0
 	if predictTime: 
-		r_squared = calculate_r_squared(trueTimeVec, predTimeVec, options)
-		print 'R2:%f' % r_squared
+		r2 = calculate_r_squared(trueTimeVec, predTimeVec, options)
+		print 'R2:%f' % r2
+
+	return recall, r2
 
 def parse_arguments(parser):
 	parser.add_argument('model_file', type=str, metavar='<model_file>', help='The path to the model file saved by Doctor AI')
@@ -284,39 +286,44 @@ if __name__ == '__main__':
 		print 'Cannot predict time duration without time file'
 		sys.exit()
 
-	recall = test_doctorAI(
-		modelFile=args.model_file,
-		seqFile=args.seq_file, 
-		labelFile=args.label_file, 
-		timeFile=args.time_file, 
-		predictTime=args.predict_time,
-		useLogTime=args.use_log_time,
-		hiddenDimSize=hiddenDimSize,
-		batchSize=args.batch_size,
-		mean_duration=args.mean_duration,
-		verbose=args.verbose
-	)
-	# recalls = []
-	# for epoch in range(20):
-	# 	recall = test_doctorAI(
-	# 		modelFile=args.model_file+'.'+str(epoch)+'.npz',
-	# 		seqFile=args.seq_file, 
-	# 		labelFile=args.label_file, 
-	# 		timeFile=args.time_file, 
-	# 		predictTime=args.predict_time,
-	# 		useLogTime=args.use_log_time,
-	# 		hiddenDimSize=hiddenDimSize,
-	# 		batchSize=args.batch_size,
-	# 		mean_duration=args.mean_duration,
-	# 		verbose=args.verbose
-	# 	)
-	# 	recalls.append(recall)
+	# recall = test_doctorAI(
+	# 	modelFile=args.model_file,
+	# 	seqFile=args.seq_file, 
+	# 	labelFile=args.label_file, 
+	# 	timeFile=args.time_file, 
+	# 	predictTime=args.predict_time,
+	# 	useLogTime=args.use_log_time,
+	# 	hiddenDimSize=hiddenDimSize,
+	# 	batchSize=args.batch_size,
+	# 	mean_duration=args.mean_duration,
+	# 	verbose=args.verbose
+	# )
+	recalls = []
+	r2s = []
+	for epoch in range(20):
+		recall, r2 = test_doctorAI(
+			modelFile=args.model_file+'.'+str(epoch)+'.npz',
+			seqFile=args.seq_file, 
+			labelFile=args.label_file, 
+			timeFile=args.time_file, 
+			predictTime=args.predict_time,
+			useLogTime=args.use_log_time,
+			hiddenDimSize=hiddenDimSize,
+			batchSize=args.batch_size,
+			mean_duration=args.mean_duration,
+			verbose=args.verbose
+		)
+		recalls.append(recall)
+		r2s.append(r2)
 	
-	# fout = open("recalls.txt", 'w')
-	# for i in range(3):
-	# 	for r in recalls:
-	# 		fout.write(str(r[i])+'\n')
-	# 	fout.write('\n\n')
+	fout = open("recalls.txt", 'w')
+	for i in range(4):
+		for r in recalls:
+			fout.write(str(r[i])+'\n')
+		fout.write('\n\n')
+
+	for r2 in r2s:
+		fout.write(str(r2)+'\n')
 
 	
 

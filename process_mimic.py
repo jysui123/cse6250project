@@ -34,7 +34,7 @@ def convert_to_3digit_icd9(dxStr):
 def convert_to_label(dxStr):
     return 'D_' + convert_to_icd9(dxStr)
 
-def dt_to_integer(dt_time, precision='day'):
+def dt_to_integer(dt_time, precision='hour'):
 	div = 1
 	if precision == 'second':
 		div = 1
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
 	# label file location
 	PATH_LABELMAP = "labelMap.csv"
-	df_map = pd.read_csv("labelMap.csv", usecols=["code", "cat"])
+	df_map = pd.read_csv(PATH_LABELMAP, usecols=["code", "cat"])
 	df_map["code"] = df_map["code"].apply(convert_to_label)
 	CCSMapping = dict(zip(df_map.code, df_map.cat))
 

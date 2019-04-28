@@ -1,6 +1,5 @@
 *.CSV
 *.csv
-*.yml
 *.train
 *.test
 *.valid
