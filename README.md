@@ -6,7 +6,7 @@ name|email|gtid
 :-:|:-:|:-:
 Jingyang Sui|jysui@gatech.edu|jsui7
 Qianzhen Li||
-Chenyu Shi||cshi74@gatech.edu|cshi74
+Chenyu Shi|cshi74@gatech.edu|cshi74
 
 ## Modification Based on DoctorAI
 + Use CCS label mapping to compress label space
