@@ -5,7 +5,7 @@
 name|email|gtid
 :-:|:-:|:-:
 Jingyang Sui|jysui@gatech.edu|jsui7
-Qianzhen Li||
+Qianzhen Li|qzli@gatech.edu|qli365
 Chenyu Shi|cshi74@gatech.edu|cshi74
 
 ## Modification Based on DoctorAI
